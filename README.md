@@ -3,11 +3,11 @@ This EEGLAB plugin allows for the automatic rejection and iterpolation of channe
 
 
 ## Using `pop_TBT`
-![pop_TBT](https://github.com/mattansb/TBT/blob/master/TBT%201.5/TBT_eg.png)
+![pop_TBT](https://github.com/mattansb/TBT/blob/master/TBT_eg.png)
 
 
 ## Using `pop_eegmaxmin`
-![pop_TBT](https://github.com/mattansb/TBT/blob/master/TBT%201.5/maxmin_eg.png)
+![pop_TBT](https://github.com/mattansb/TBT/blob/master/maxmin_eg.png)
 
 
 ## List of included functions:  
