@@ -1,7 +1,5 @@
 # TBT
 
-[TOC]
-
 This EEGLAB plugin allows for the automatic rejection and iterpolation of channels on an epoch-by-epoch basis.
 
 It also comes with an additional method for rejecting epochs - max-minus-min threshhold.
