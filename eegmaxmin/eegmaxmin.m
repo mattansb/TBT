@@ -43,6 +43,6 @@ EEG.reject.rejmaxmin    = double(any(rej,1));
 
 
 fprintf('%d channel selected\n', length(chanRange));
-fprintf('%d/%d trials marked for rejection\n', sum(EEG.reject.rejmaxmin), EEG.trials);
+fprintf('%d/%d trials contain channels that exceed threshold\n', sum(EEG.reject.rejmaxmin), EEG.trials);
 
 end
