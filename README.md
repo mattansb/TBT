@@ -1,14 +1,19 @@
 # TBT
 
-This EEGLAB plugin allows for the automatic rejection and iterpolation of channels on an epoch-by-epoch basis.
+This EEGLAB plugin allows for the automatic rejection and interpolation of channels on an epoch-by-epoch basis.
 
-It also comes with an additional method for rejecting epochs - max-minus-min threshhold.
+It also comes with an additional method for rejecting epochs - max-minus-min threshold.
 
+## Downloading
+
+- You can download TBT through EEGLAB's data-processing extension GUI (_File > Manage EEGLAB Extensions > Data-Processing Extensions_).
+- Or as a `.zip` file from EEGLABS's servers [(TBT v1.5)](http://sccn.ucsd.edu/eeglab/plugins/TBT1.5.zip).
+- Or as a `.zip` file from the GitHub page [(TBT v1.5)](https://github.com/mattansb/TBT/releases).
 
 ## Using `pop_TBT`
 ### List of included functions
 - `eegplugin_TBT` - EEGLAB plugin function.
-- `tbt_bcr` - epoch-by-epoch channel iterpolation, based on any rejection method used by EEGLAB, or a manual cell-array listing which channels to iterpolate in which epochs.
+- `tbt_bcr` - epoch-by-epoch channel interpolation, based on any rejection method used by EEGLAB, or a manual cell-array listing which channels to interpolate in which epochs.
 - `pop_TBT` - call from EEGLAB menu of `tbt_bcr`. If no parameters are specified, pops a GUI window
 
 ### TBT GUI
@@ -17,7 +22,7 @@ It also comes with an additional method for rejecting epochs - max-minus-min thr
 
 ### Scripting
 ```matlab
-[EEG, com, badlist] = pop_TBT(EEG); % pop-up interative window mode
+[EEG, com, badlist] = pop_TBT(EEG); % pop-up interactive window mode
 
 EEG         		= pop_TBT(EEG,bads,badsegs,badchans,plot_bads);
 % EEG         - input dataset
@@ -45,20 +50,20 @@ EEG         		= pop_TBT(EEG,bads,badsegs,badchans,plot_bads);
 - `eegmaxmin` - new rejection method, based on max-min amplitude differences (available only for channel data, not IC activation).
 - `pop_eegmaxmin` - call from EEGLAB menu of `eegmaxmin`. If no parameters are specified, pops a GUI window:
 
-### Max-Min GUI
+### Max-Min Threshold GUI
 
 ![pop_eegmaxmin](doc/maxmin_eg.png)
 
 ### Scripting
 ```matlab
-[EEG, com] = pop_eegmaxmin(EEG); % pop-up interative window mode
+[EEG, com] = pop_eegmaxmin(EEG); % pop-up interactive window mode
 
 EEG        = pop_eegmaxmin(EEG,chanRange,timeRange,minmaxThresh,winSize,stepSize);
 % EEG         - input dataset.
 % chanRange   - [1:EEG.nbchan] indecies for channels.
 % timeRange   - [1:EEG.xmax*1000] range for inspection in ms.
 % minmaxThresh- Threshold for the difference between max and min.
-% winSize     - size of moving winsow (in ms).
+% winSize     - size of moving window (in ms).
 % stepSize    - step size for moving window (in ms).
-% maW         - moving average window size [defult 0].
+% maW         - moving average window size [default 0].
 ```
