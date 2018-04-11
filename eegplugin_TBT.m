@@ -1,5 +1,10 @@
 function eegplugin_TBT (fig, trystrs, catchstrs)
 
+% Add sub-folders to path
+path = strrep(which(mfilename),[mfilename '.m'],'');
+addpath([path '/eegmaxmin'])
+addpath([path '/tbt'])
+
 dothething1 = [  trystrs.no_check,...
                 '[EEG, LASTCOM] = pop_TBT(EEG);'...
                 '[ALLEEG EEG CURRENTSET] = eeg_store(ALLEEG, EEG, CURRENTSET);',...
