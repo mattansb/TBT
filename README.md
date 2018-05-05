@@ -1,5 +1,7 @@
 # TBT
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1241519.svg)](https://doi.org/10.5281/zenodo.1241519)
+
 This EEGLAB plugin allows for the automatic rejection and interpolation of channels on an epoch-by-epoch basis.
 
 It also comes with an additional method for rejecting epochs - max-minus-min threshold.
