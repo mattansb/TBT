@@ -2,12 +2,12 @@
 %
 % Usage:
 %   >> [EEG, com]   = pop_eegmaxmin(EEG); % pop-up interative window mode
-%   >>  EEG         = pop_eegmaxmin(EEG,chanRange,timeRange,minmaxThresh,winSize,stepSize);
+%   >>  EEG         = pop_eegmaxmin(EEG,chanRange,timeRange,minmaxThresh,winSize,stepSize,maW);
 %
 % Inputs:
 %   EEG         - input dataset.
 %   chanRange   - [1:EEG.nbchan] indecies for channels.
-%   timeRange   - [1:EEG.xmax*1000] range for inspection in ms.
+%   timeRange   - [[EEG.xmin, EEG.xmax]*1000] range for inspection in ms.
 %   minmaxThresh- Threshold for the difference between max and min.
 %   winSize     - size of moving winsow (in ms).
 %   stepSize    - step size for moving window (in ms).

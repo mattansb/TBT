@@ -1,8 +1,14 @@
 % pop_TBT() - Rejects and iterpolates channels on a epoch by epoch basis.
 %
 % Usage:
-%   >> [EEG, com, badlist]   = pop_TBT(EEG); % pop-up interative window mode
-%   >>  EEG         = pop_TBT(EEG,bads,badsegs,badchans,plot_bads);
+%   >>  EEG = pop_TBT(EEG,bads,badsegs,badchans,plot_bads);
+%
+%   only interpolate channels according to `bads`:
+%   >>  EEG = pop_TBT(EEG,bads,EEG.nbchan,1,plot_bads); 
+%
+%   pop-up interative window mode:
+%   >> [EEG, com, badlist]   = pop_TBT(EEG);
+%
 %
 % When called from the eeglab GUI, the pop-up window will require the
 % following:
