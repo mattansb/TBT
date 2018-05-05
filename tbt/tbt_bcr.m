@@ -42,8 +42,6 @@
 
 function [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads)
 
-EEG_old = EEG;
-
 %% convert bads from cell to array
 if iscell(bads)
     fprintf('pop_TBT(): Converting cell-array.')
@@ -127,6 +125,8 @@ if plot_bads==0
     end
 
     %% Interpolate bad channels (trial by trial)
+    EEG_old = EEG; % need the old channlocs an events for later
+    
     tbt	= {[],{}};      % make empty list
     for tr = 1:size(bads,2) % each trial
         if any(bads(:,tr)) % if has any bad channels
@@ -183,8 +183,6 @@ if plot_bads==0
         EEG.urevent = EEG_old.urevent;
         
         fprintf([repmat('\b',[1 28]) '... done.\n'])
-    else
-        EEG = pop_interp(EEG, EEG_old.chanlocs, 'spherical');
     end
     
     EEG = eeg_checkset(EEG);

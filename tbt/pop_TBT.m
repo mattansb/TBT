@@ -30,9 +30,9 @@
 %                 channels" for each epoch. OR
 %                 a x-by-2 cell list, with the first column specifying the
 %                 epochs, and the second column specifying the bad channels
-%                 in those epochs. e.g.: {1,{'E12'};[13 28],{'E22'}} will
-%                 remove E12 from the 1st epoch, and E22 from epochs 13 and
-%                 28.
+%                 in those epochs. e.g.: {1,{'E12','E45'};[13 28],{'E22'}}
+%                 will remove E12 and E45 from the 1st epoch, and E22 from
+%                 epochs 13 and 28.
 %   badsegs     - Number of max bad channels per epoch. If an epoch has
 %                 more than this number of bad channels, the epoch is
 %                 removed.
@@ -43,9 +43,11 @@
 %                 to confirm. If no plotting, will execute immediately.
 %    
 % Outputs:
-%   EEG     - output dataset
+%   EEG     - output dataset. Note that due to the fucntion of
+%             `pop_mergeset`, the output EEG's trials are not necessarily
+%             in the same order as the input EEG (but the urevents can
+%             still be used as usual).
 %
-
 % Copyright (C) 2017  Mattan S. Ben-Shachar
 %
 % This program is free software; you can redistribute it and/or modify
