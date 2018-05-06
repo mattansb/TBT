@@ -173,20 +173,21 @@ if plot_bads==0
         % EEG = pop_mergeset(NEWEEG, [length(NEWEEG) 1:length(NEWEEG)-1], 0);
         
         % remove extra trimmmmmmmm from urevent
-        old_ur_len = length(EEG_old.urevent)+1;
+        old_ur_len = length(EEG_old.urevent)+1
         for e = 1:length(EEG.event)
             k_bound = EEG.event(e).urevent / old_ur_len;
             if ~isempty(k_bound)
-                EEG.event(e).urevent = EEG.event(e).urevent - (old_ur_len * floor(k_bound));
+                EEG.event(e).urevent - (old_ur_len * floor(k_bound))
             end
         end
-%         nbound = sum(strcmpi('boundary',{EEG.urevent(:).type}));
-%         ur_ind = repmat([EEG_old.urevent.init_index nan],[1 (nbound+1)]);
-%         ur_ind = num2cell(ur_ind(1:end-1));
-%         [EEG.urevent.init_index2] = ur_ind{:};
-%         for e = 1:length(EEG.event)
-%             EEG.event(e).urevent = EEG.urevent(EEG.event(e).urevent).init_index2;
-%         end
+        
+        nbound = sum(strcmpi('boundary',{EEG.urevent(:).type}));
+        ur_ind = repmat([EEG_old.urevent.init_index nan],[1 (nbound+1)]);
+        ur_ind = num2cell(ur_ind(1:end-1));
+        [EEG.urevent.init_index2] = ur_ind{:};
+        for e = 1:length(EEG.event)
+            EEG.event(e).urevent = EEG.urevent(EEG.event(e).urevent).init_index2;
+        end
         EEG.urevent = EEG_old.urevent;
         
         fprintf([repmat('\b',[1 28]) '... done.\n'])
