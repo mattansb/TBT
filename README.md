@@ -16,10 +16,8 @@ Downloading
 -   Or as a `.zip` file from EEGLABS's servers [(TBT v1.5)](http://sccn.ucsd.edu/eeglab/plugins/TBT1.5.zip).
 -   Or as a `.zip` file from the GitHub page [(TBT)](https://github.com/mattansb/TBT/releases).
 
-Using TBT
----------
-
-### List of included functions
+List of included functions
+--------------------------
 
 -   `eegplugin_TBT` - EEGLAB plugin function.
 -   `tbt_bcr` - epoch-by-epoch channel interpolation, based on any rejection method used by EEGLAB, or a manual cell-array listing which channels to interpolate in which epochs.
@@ -27,7 +25,8 @@ Using TBT
 -   `tbt_cell2bool` - converts a tbt ready cell-list a bollian channel-by-trial matrix (see bellow).
 -   `pop_TBT` - call from EEGLAB menu of `tbt_bcr`. If no parameters are specified, pops a GUI window.
 
-### TBT GUI
+TBT GUI
+-------
 
 Use the menu.....
 
@@ -39,9 +38,28 @@ Or, by typing into the command line:
 
 ![pop\_TBT](doc/TBT_eg.png)
 
-### Scripting
+You will be asked to....
+
+Scripting
+---------
+
+Scrippting gives two major additional not avialble in the gui:
+
+1.  Supplying a cell-list for rejection
+2.  intrpolating addiotnal missing channels (thus making TBT an optiomal last step in pre-processing)
 
 ``` matlab
 EEG = pop_TBT(EEG,bads,badsegs,badchans,plot_bads,chanlocs);
 % to get more info, type 'help pop_TBT' in the command line.
 ```
+
+### Supplyinh manual cell list....
+
+also mix with any rejection method by using tbt\_cell2...
+
+### Intepolating missing channels
+
+Author
+------
+
+-   **Mattan S. Ben-Shachar** \[aut, cre\].
