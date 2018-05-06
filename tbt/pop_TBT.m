@@ -1,10 +1,10 @@
 % pop_TBT() - Rejects and iterpolates channels on a epoch by epoch basis.
 %
 % Usage:
-%   >>  EEG = pop_TBT(EEG,bads,badsegs,badchans,plot_bads);
+%   >>  EEG = pop_TBT(EEG,bads,badsegs,badchans,plot_bads,chanlocs);
 %
 %   only interpolate channels according to `bads`:
-%   >>  EEG = pop_TBT(EEG,bads,EEG.nbchan,1,plot_bads); 
+%   >>  EEG = pop_TBT(EEG,bads,EEG.nbchan,1,plot_bads,chanlocs); 
 %
 %   pop-up interative window mode:
 %   >> [EEG, com, badlist]   = pop_TBT(EEG);
@@ -41,6 +41,12 @@
 %                 of trials, it is removed.
 %   plot_bads   - [0|1] plot before executing. When plotting, will also ask
 %                 to confirm. If no plotting, will execute immediately.
+%   chanlocs    - [optional] a chanlocs struct (e.g., EEG.chanlocs). If
+%                 provided, missing channels will be interpolated according
+%                 to this struct, and not the input EEG. NOTE that if not
+%                 provided, channel that have been rejected across the
+%                 dataset (according to the badchans critirion) will not be
+%                 interpolated back in.
 %    
 % Outputs:
 %   EEG     - output dataset. Note that due to the fucntion of
@@ -64,7 +70,7 @@
 % along with this program; if not, write to the Free Software
 % Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-function [EEG, com, badlist] = pop_TBT(EEG,bads,badsegs,badchans,plot_bads)
+function [EEG, com, badlist] = pop_TBT(EEG,bads,badsegs,badchans,plot_bads,chanlocs)
 
 com = '';
 
@@ -157,12 +163,11 @@ elseif nargin < 4
     eval([comrej]);
     eval([comtbt]);
     end
-elseif nargin < 5
-    [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,1);
-    badlist.nbadchan  = nbadchan;
-    badlist.nbadtrial = nbadtrial;
 else
-    [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads);
+    if ~exist('plot_bads','var'), plot_bads = 1;            end
+    if ~exist('chanlocs','var'),  chanlocs = EEG.chanlocs;  end
+    
+    [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads,chanlocs);
     badlist.nbadchan  = nbadchan;
     badlist.nbadtrial = nbadtrial;
 end

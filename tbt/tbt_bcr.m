@@ -1,7 +1,7 @@
 % tbt_bcr() - Rejects and iterpolates channels on a epoch by epoch basis.
 %
 % Usage:
-%   >>  [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads);
+%   >>  [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads,chanlocs);
 %
 % Inputs:
 %   EEG         - input dataset
@@ -16,6 +16,12 @@
 %                 of trials, it is removed.
 %   plot_bads   - [0|1] plot before executing. When plotting, will also ask
 %                 to confirm. If no plotting, will execute immediately.
+%   chanlocs    - [optional] a chanlocs struct (e.g., EEG.chanlocs). If
+%                 provided, missing channels will be interpolated according
+%                 to this struct, and not the input EEG. NOTE that if not
+%                 provided, channel that have been rejected across the
+%                 dataset (according to the badchans critirion) will not be
+%                 interpolated back in.
 %    
 % Outputs:
 %   EEG         - output dataset
@@ -40,19 +46,12 @@
 % Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-function [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads)
+function [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads,chanlocs)
 
 %% convert bads from cell to array
 if iscell(bads)
     fprintf('pop_TBT(): Converting cell-array.')
-    bads_array = zeros([size(EEG.data,1) size(EEG.data,3)]);
-    for r = 1:size(bads,1)
-        % identift channels
-        chan_i  = cellfun(@(x) any(strcmpi(x,bads{r,2})),{EEG.chanlocs.labels});
-        epoch_i = bads{r,1};
-        bads_array(chan_i,epoch_i) = 1;
-    end
-    bads = bads_array;
+    bads = tbt_cell2bool(bads,EEG);
     fprintf('.. done.\n')
 end
 
@@ -104,7 +103,7 @@ end
 
 
 if plot_bads==0
-%% Remove bad channels and trials
+    %% Remove bad channels and trials
     % Remove bad channels
     fprintf('\n')
     if ~isempty(bChan_lab) % if any bad channels
@@ -126,15 +125,15 @@ if plot_bads==0
 
     %% Interpolate bad channels (trial by trial)
     EEG_old = EEG; % need the old channlocs an events for later
-    
-    tbt	= {[],{}};      % make empty list
-    for tr = 1:size(bads,2) % each trial
-        if any(bads(:,tr)) % if has any bad channels
-            tbt{end+1,1}    = tr;                                   % list trial number
-            tbt{end,2}      = {EEG.chanlocs(bads(:,tr)==1).labels}; % list bad channels in current trial
-        end
+    if ~exist('chanlocs','var')
+        interp_all = true;
+        chanlocs = EEG_old.chanlocs;
+    else
+        interp_all = false;
     end
-    tbt = tbt(2:end,:); % remove first empty row
+    
+    % convert bool array to n-by-2 cell-list
+    tbt = tbt_bool2cell(bads,EEG);
     
     if size(tbt,1)~=0
         fprintf('pop_TBT(): Splitting data')
@@ -160,8 +159,8 @@ if plot_bads==0
         for t = 1:length(NEWEEG)
             if ~mod(t,5), fprintf('.'); end
             % Interpolate:
-            evalc('NEWEEG(t)   = pop_interp(NEWEEG(t), EEG_old.chanlocs, ''spherical'');');
-            % NEWEEG(t)   = pop_interp(NEWEEG(t), EEG_old.chanlocs, 'spherical');
+            evalc('NEWEEG(t)   = pop_interp(NEWEEG(t), chanlocs, ''spherical'');');
+            % NEWEEG(t)   = pop_interp(NEWEEG(t), chanlocs, 'spherical');
             
             clear missing
         end
@@ -190,6 +189,10 @@ if plot_bads==0
         EEG.urevent = EEG_old.urevent;
         
         fprintf([repmat('\b',[1 28]) '... done.\n'])
+    elseif interp_all
+        fprintf('pop_TBT(): Interpolating missing channels')
+        evalc('EEG = pop_interp(EEG, chanlocs, ''spherical'');');
+        fprintf('.. done.\n')
     end
     
     EEG = eeg_checkset(EEG);
