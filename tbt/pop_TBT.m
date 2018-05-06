@@ -165,9 +165,12 @@ elseif nargin < 4
     end
 else
     if ~exist('plot_bads','var'), plot_bads = 1;            end
-    if ~exist('chanlocs','var'),  chanlocs = EEG.chanlocs;  end
+    if exist('chanlocs','var')
+        [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads,chanlocs);
+    else
+        [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads);
+    end
     
-    [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads,chanlocs);
     badlist.nbadchan  = nbadchan;
     badlist.nbadtrial = nbadtrial;
 end
@@ -188,9 +191,4 @@ end
     end
 
 end
-
-
-
-
-
 
