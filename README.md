@@ -114,7 +114,7 @@ tbt_bool2cell(EEG.reject.rejmaxminE, EEG)
 
 ### Intepolating all missing channels
 
-By defult, trial-by-trial interpolation interpolates *only* the channels that are marked on a single-triual basis. i.e., channels marked as bad across the whole dtat-set will not be re-added by interpolation. If you wish to add them back (or any other channel that may have been removed in any previous processing step), channel locations can be added to `pop_tbt`:
+By default, trial-by-trial interpolation interpolates *only* the channels that are marked on a single-trial basis. i.e., channels marked as bad across the whole data-set will not be re-added by interpolation. If you wish to add them back (or any other channel that may have been removed in any previous processing step), channel locations can be added to `pop_tbt`:
 
 ``` matlab
 % To add back all channels from the input EEG data-set:
