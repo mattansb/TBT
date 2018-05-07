@@ -13,7 +13,7 @@ Using `pop_eegmaxmin`
 
 ### Max-Min Threshold GUI
 
-![pop\_eegmaxmin](doc/maxmin_eg.png)
+![pop\_eegmaxmin](maxmin_eg.png)
 
 ### Scripting
 
