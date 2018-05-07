@@ -164,7 +164,7 @@ elseif nargin < 4
     eval([comtbt]);
     end
 else
-    if ~exist('plot_bads','var'), plot_bads = 1;            end
+    if ~exist('plot_bads','var'), plot_bads = 1; end
     if exist('chanlocs','var')
         [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads,chanlocs);
     else
