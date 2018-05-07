@@ -6,7 +6,7 @@
 
 This EEGLAB plugin allows for the automatic rejection and interpolation of channels on an epoch-by-epoch basis.
 
-It also comes with an additional method for rejecting epochs - max-minus-min threshold.
+It also comes with an additional method for rejecting epochs - max-minus-min threshold ([see here for more info](doc/Using eegmaxmin.md))
 
 ## Downloading
 
