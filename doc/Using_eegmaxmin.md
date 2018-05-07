@@ -20,12 +20,6 @@ Using `pop_eegmaxmin`
 ``` matlab
 [EEG, com] = pop_eegmaxmin(EEG); % pop-up interactive window mode
 
-EEG        = pop_eegmaxmin(EEG,chanRange,timeRange,minmaxThresh,winSize,stepSize);
-% EEG         - input dataset.
-% chanRange   - [1:EEG.nbchan] indecies for channels.
-% timeRange   - [1:EEG.xmax*1000] range for inspection in ms.
-% minmaxThresh- Threshold for the difference between max and min.
-% winSize     - size of moving window (in ms).
-% stepSize    - step size for moving window (in ms).
-% maW         - moving average window size [default 0].
+EEG        = pop_eegmaxmin(EEG,chanRange,timeRange,minmaxThresh,winSize,stepSize,maW);
+% to get more info, type 'help pop_eegmaxmin' in the command line.
 ```
