@@ -124,7 +124,7 @@ if plot_bads==0
     end
 
     %% Interpolate bad channels (trial by trial)
-    EEG_old = EEG; % need the old channlocs an events for later
+    EEG_old = EEG; % need the old channlocs and events for later
     if ~exist('chanlocs','var')
         interp_all = true;
         chanlocs = EEG_old.chanlocs;
@@ -168,8 +168,18 @@ if plot_bads==0
         
         % Merge
         fprintf('pop_TBT(): Merging data (this might take a while)..')
+        old_ntrials = [];
+        if NEWEEG(end).trials==1 % this will cause problems when merging.
+            old_ntrials = EEG.trials;
+            NEWEEG(end+1) = EEG;
+        end
         evalc('EEG = pop_mergeset(NEWEEG, [length(NEWEEG) 1:length(NEWEEG)-1], 0);');
         % EEG = pop_mergeset(NEWEEG, [length(NEWEEG) 1:length(NEWEEG)-1], 0);
+        
+        if ~isempty(old_ntrials)
+            evalc('EEG = pop_select( EEG,''notrial'',[1:old_ntrials]);');
+            % EEG = pop_select( EEG,'notrial',[1:old_ntrials]);
+        end
         
         % remove extra trimmmmmmmm from urevent
         old_ur_len = length(EEG_old.urevent)+1;
