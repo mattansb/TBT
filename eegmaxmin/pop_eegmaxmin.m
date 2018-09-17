@@ -1,7 +1,7 @@
 % pop_TBT() - Rejects and iterpolates channels on a epoch by epoch basis.
 %
 % Usage:
-%   >> [EEG, com]   = pop_eegmaxmin(EEG); % pop-up interative window mode
+%   >> [EEG, com]   = pop_eegmaxmin(EEG); % pop-up interactive window mode
 %   >>  EEG         = pop_eegmaxmin(EEG,chanRange,timeRange,minmaxThresh,winSize,stepSize,maW);
 %
 % Inputs:
