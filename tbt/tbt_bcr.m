@@ -78,20 +78,23 @@ elseif ~any(plot_bads==[-1 0 1])
 end
 
 if plot_bads==1
-    mark = bads';
-
-    mark(:,6:end+5)         = mark;
+    mark                    = ones([0,5] + size(bads'));
+    mark(:,6:end)           = bads';
     mark(:,1)               = 1:EEG.pnts:EEG.pnts*EEG.trials;   % start sample
     mark(:,2)               = mark(:,1)+EEG.pnts;               % end   sample
-    mark(~bTrial_ind,3:5)   = 1;                                % color for good trials (white)
     mark(bTrial_ind,3)      = 1;                                % R for bad trials
     mark(bTrial_ind,4)      = 0.9;                              % G for bad trials
     mark(bTrial_ind,5)      = 0.7;                              % B for bad trials
-    eegplot(EEG.data(:,:,:),'srate', EEG.srate, 'limits', [EEG.xmin EEG.xmax]*1000 ,...
-        'events', EEG.event ,'winrej',mark);
+    eegplot(EEG.data(:,:,:), 'winrej',mark, 'events', EEG.event ,...
+        'srate', EEG.srate, 'limits', [EEG.xmin EEG.xmax]*1000);
     uiwait(gcf);
     
-    choice = questdlg(sprintf('Proceed?'), ...
+    
+    
+    choice = questdlg(...
+        sprintf(['%d channel(s) are bad on at least 1 trial.\n'...
+        '%d trial(s) contain at least 1 bad channel\n'...
+        '\nProceed?'],sum(any(bads,2)),sum(any(bads,1))), ...
         'Confirm', ...
         'Yes','No (do nothing)','Yes');
     switch choice
@@ -99,8 +102,6 @@ if plot_bads==1
             plot_bads = 0;
     end
 end
-
-
 
 if plot_bads==0
     %% Remove bad channels and trials
@@ -136,6 +137,8 @@ if plot_bads==0
     tbt = tbt_bool2cell(bads,EEG);
     
     if size(tbt,1)~=0
+        fprintf('pop_TBT(): %d channel(s) are bad on at least 1 trial.\n',sum(any(bads,2)))
+        fprintf('pop_TBT(): %d traisl(s) contain at least 1 bad channel.\n',sum(any(bads,1)))
         fprintf('pop_TBT(): Splitting data')
         for t = 1:size(tbt,1) % each trial with bad channels
             if ~mod(t,5), fprintf('.'); end
