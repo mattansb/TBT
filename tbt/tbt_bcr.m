@@ -48,6 +48,8 @@
 
 function [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads,chanlocs)
 
+warning('tbt_bcr() is Depricated - use tbt_bcr2() instead!')
+
 %% convert bads from cell to array
 if iscell(bads)
     fprintf('pop_TBT(): Converting cell-array.')

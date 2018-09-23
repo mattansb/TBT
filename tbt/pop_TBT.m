@@ -49,10 +49,8 @@
 %                 interpolated back in.
 %    
 % Outputs:
-%   EEG     - output dataset. Note that due to the fucntion of
-%             `pop_mergeset`, the output EEG's trials are not necessarily
-%             in the same order as the input EEG (but the urevents can
-%             still be used as usual).
+%   EEG     - output dataset.
+%   badlist - number of bad channel and epochs removed
 %
 % Copyright (C) 2017  Mattan S. Ben-Shachar
 %
@@ -166,9 +164,9 @@ elseif nargin < 4
 else
     if ~exist('plot_bads','var'), plot_bads = 1; end
     if exist('chanlocs','var')
-        [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads,chanlocs);
+        [EEG, nbadchan, nbadtrial] = tbt_bcr2(EEG,bads,badsegs,badchans,plot_bads,chanlocs);
     else
-        [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads);
+        [EEG, nbadchan, nbadtrial] = tbt_bcr2(EEG,bads,badsegs,badchans,plot_bads);
     end
     
     badlist.nbadchan  = nbadchan;
