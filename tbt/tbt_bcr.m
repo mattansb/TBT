@@ -48,6 +48,8 @@
 
 function [EEG, nbadchan, nbadtrial] = tbt_bcr(EEG,bads,badsegs,badchans,plot_bads,chanlocs)
 
+warning('tbt_bcr() is Depricated - use tbt_bcr2() instead!')
+
 %% convert bads from cell to array
 if iscell(bads)
     fprintf('pop_TBT(): Converting cell-array.')
@@ -78,20 +80,48 @@ elseif ~any(plot_bads==[-1 0 1])
 end
 
 if plot_bads==1
-    mark = bads';
-
-    mark(:,6:end+5)         = mark;
+    % Plot Matrix at a glance
+    forplot_bads = double(~bads);
+    forplot_bads(:,bTrial_ind) = EEG.trials + 1;
+    for tr = 1:EEG.trials
+        forplot_bads(bads(:,tr),tr) = tr;
+    end
+    forplot_bads(bChan_ind,:) = EEG.trials + 1;
+    
+    figure; imagesc(forplot_bads);
+    colormap([1 1 1; rand([EEG.trials 3]); [1 .25 .25]])
+    title('Bad channels by trial')
+    xlabel('Trial'); ylabel('Channel');
+    yticks(1:EEG.nbchan); yticklabels({EEG.chanlocs.labels});
+    annotation('textbox', [0.1, 0.07, 0, 0],...
+        'String', 'Each trial is marked by a color. Red lines indicate a channel or trial that will be completelty removed. ',...
+        'FitBoxToText', 'on', 'LineStyle', 'none');
+    
+    % Plot EEG
+    mark                    = ones([0,5] + size(bads'));
+    mark(:,6:end)           = double(bads');
     mark(:,1)               = 1:EEG.pnts:EEG.pnts*EEG.trials;   % start sample
     mark(:,2)               = mark(:,1)+EEG.pnts;               % end   sample
-    mark(~bTrial_ind,3:5)   = 1;                                % color for good trials (white)
     mark(bTrial_ind,3)      = 1;                                % R for bad trials
     mark(bTrial_ind,4)      = 0.9;                              % G for bad trials
     mark(bTrial_ind,5)      = 0.7;                              % B for bad trials
-    eegplot(EEG.data(:,:,:),'srate', EEG.srate, 'limits', [EEG.xmin EEG.xmax]*1000 ,...
-        'events', EEG.event ,'winrej',mark);
+    eegplot(EEG.data(:,:,:), 'winrej',mark, 'events', EEG.event ,...
+        'srate', EEG.srate, 'limits', [EEG.xmin EEG.xmax]*1000);
     uiwait(gcf);
     
-    choice = questdlg(sprintf('Proceed?'), ...
+    dlgmsstxt = sprintf(...
+        ['%d trial and %d channels will be completely removed. Additionally:\n'...
+        '%d channel(s) are bad on at least 1 trial.\n'...
+        '%d trial(s) contain at least 1 bad channel\n'...
+        '\n',...
+        'Proceed?'],...
+        length(bTrial_num),...
+        length(bChan_lab),...
+        sum(any(bads(~bChan_ind,~bTrial_ind),2)),...
+        sum(any(bads(~bChan_ind,~bTrial_ind),1)));
+    
+    choice = questdlg(...
+        dlgmsstxt, ...
         'Confirm', ...
         'Yes','No (do nothing)','Yes');
     switch choice
@@ -99,8 +129,6 @@ if plot_bads==1
             plot_bads = 0;
     end
 end
-
-
 
 if plot_bads==0
     %% Remove bad channels and trials
@@ -124,7 +152,7 @@ if plot_bads==0
     end
 
     %% Interpolate bad channels (trial by trial)
-    EEG_old = EEG; % need the old channlocs an events for later
+    EEG_old = EEG; % need the old channlocs and events for later
     if ~exist('chanlocs','var')
         interp_all = true;
         chanlocs = EEG_old.chanlocs;
@@ -136,6 +164,8 @@ if plot_bads==0
     tbt = tbt_bool2cell(bads,EEG);
     
     if size(tbt,1)~=0
+        fprintf('pop_TBT(): %d channel(s) are bad on at least 1 trial.\n',sum(any(bads,2)))
+        fprintf('pop_TBT(): %d traisl(s) contain at least 1 bad channel.\n',sum(any(bads,1)))
         fprintf('pop_TBT(): Splitting data')
         for t = 1:size(tbt,1) % each trial with bad channels
             if ~mod(t,5), fprintf('.'); end
@@ -168,8 +198,18 @@ if plot_bads==0
         
         % Merge
         fprintf('pop_TBT(): Merging data (this might take a while)..')
+        old_ntrials = [];
+        if NEWEEG(end).trials==1 % this will cause problems when merging.
+            old_ntrials = EEG.trials;
+            NEWEEG(end+1) = EEG;
+        end
         evalc('EEG = pop_mergeset(NEWEEG, [length(NEWEEG) 1:length(NEWEEG)-1], 0);');
         % EEG = pop_mergeset(NEWEEG, [length(NEWEEG) 1:length(NEWEEG)-1], 0);
+        
+        if ~isempty(old_ntrials)
+            evalc('EEG = pop_select( EEG,''notrial'',[1:old_ntrials]);');
+            % EEG = pop_select( EEG,'notrial',[1:old_ntrials]);
+        end
         
         % remove extra trimmmmmmmm from urevent
         old_ur_len = length(EEG_old.urevent)+1;
