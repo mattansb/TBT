@@ -17,7 +17,7 @@ It also comes with an additional method for rejecting epochs - max-minus-min thr
 ## List of included functions
 
 -   `eegplugin_TBT` - EEGLAB plugin function.
--   `tbt_bcr` - epoch-by-epoch channel interpolation, based on any rejection method used by EEGLAB, or a manual cell-array listing which channels to interpolate in which epochs.
+-   `tbt_bcr2` - epoch-by-epoch channel interpolation, based on any rejection method used by EEGLAB, or a manual cell-array listing which channels to interpolate in which epochs.
 -   `tbt_bool2cell` - converts a boolean channel-by-trial matrix to a tbt ready cell-list (see bellow).
 -   `tbt_cell2bool` - converts a tbt ready cell-list a boolean channel-by-trial matrix (see bellow).
 -   `pop_TBT` - call from EEGLAB menu of `tbt_bcr`. If no parameters are specified, pops a GUI window.
@@ -37,7 +37,9 @@ You will be asked to select a rejection method, and set its parameters, and also
 2. **The maximum number of bad channels per trial.** If a trial has more than this number of bad channels, the trial will be removed.
 3. Whether to plot the marked channels and trials before rejecting and interpolating the marked channels.
 
-![](doc/tbt_plot.png)
+![](doc/tbt_plot_eeg.png)
+![](doc/tbt_plot_matrix.png)
+
 
 ## Scripting
 
@@ -112,7 +114,7 @@ tbt_bool2cell(EEG.reject.rejmaxminE, EEG)
 
 ```
 
-### Intepolating all missing channels
+### Interpolating all missing channels
 
 By default, trial-by-trial interpolation interpolates *only* the channels that are marked on a single-trial basis. i.e., channels marked as bad across the whole data-set will not be re-added by interpolation. If you wish to add them back (or any other channel that may have been removed in any previous processing step), channel locations can be added to `pop_tbt`:
 
