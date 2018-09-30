@@ -48,9 +48,7 @@
 
 function [EEG, nbadchan, nbadtrial] = tbt_bcr2(EEG,bads,badsegs,badchans,plot_bads,chanlocs)
 
-%% convert bads from cell to array
-
-
+%% convert bads to logical array
 
 if iscell(bads)
     fprintf('pop_TBT(): Converting cell-array to logical array')
@@ -59,6 +57,7 @@ if iscell(bads)
 elseif ~islogical(bads)
     fprintf('pop_TBT(): Converting to logical array')
     bads = logical(bads);
+    fprintf('.. done.\n')
 end
 
 %% Find bad trials and Channels
@@ -90,7 +89,6 @@ end
 if plot_bads==0
     %% Remove bad channels and trials
     % Remove bad channels
-    fprintf('\n')
     if ~isempty(bChan_lab) % if any bad channels
         fprintf('pop_TBT(): Dropping %d channel(s).',length(bChan_lab))
         evalc('EEG     = pop_select(EEG,''nochannel'',bChan_lab);');
