@@ -1,4 +1,4 @@
-% pop_TBT() - Rejects and iterpolates channels on a epoch by epoch basis.
+% pop_eegmaxmin() - Reject based on max-min difference thereshold.
 %
 % Usage:
 %   >> [EEG, com]   = pop_eegmaxmin(EEG); % pop-up interactive window mode
@@ -16,7 +16,6 @@
 % Outputs:
 %   EEG     - output dataset
 %
-
 % Copyright (C) 2017  Mattan S. Ben-Shachar
 %
 % This program is free software; you can redistribute it and/or modify
