@@ -1,3 +1,8 @@
+# TBT 2.6.0
+
+- Works better with the new `eeglab2019`.
+
+
 # TBT 2.5.0
 
 - `pop_TBT` now returns the epochs in the correct order (and also runs a lot faster) (previously, due to the fucntion of `pop_mergeset`, the output EEG's trials were not necessarily in the same order as the input EEG - but the `urevents` could have been used as usual).
