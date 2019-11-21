@@ -1,3 +1,12 @@
+% TBT - Reject and iterpolate channels on a epoch by epoch basis.
+%
+% The main functions are:
+%   >>  EEG = pop_TBT(EEG);
+%   >>  EEG = pop_eegmaxmin(EEG);
+%
+% Copyright (C) 2019  Mattan S. Ben-Shachar
+% 
+% Read more at: https://github.com/mattansb/TBT
 function eegplugin_TBT (fig, trystrs, catchstrs)
 
 % Add sub-folders to path
