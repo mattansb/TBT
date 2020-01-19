@@ -10,7 +10,7 @@ It also comes with an additional method for rejecting epochs - max-minus-min thr
 
 ## Downloading
 
--   You can download TBT through EEGLAB's data-processing extension GUI (*File &gt; Manage EEGLAB Extensions &gt; Data-Processing Extensions*).
+-   You can download TBT through EEGLAB's data-processing extension GUI (*File &gt; Manage EEGLAB Extensions &gt; Filter by artifact*).
 -   Or as a `.zip` file from EEGLABS's servers [(TBT v2.0)](http://sccn.ucsd.edu/eeglab/plugins/TBT2.0.zip).
 -   Or as a `.zip` file from the GitHub page [(TBT)](https://github.com/mattansb/TBT/releases).
 
