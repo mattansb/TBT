@@ -53,12 +53,13 @@ function [EEG, nbadchan, nbadtrial] = tbt_bcr2(EEG,bads,badsegs,badchans,plot_ba
 
 
 if iscell(bads)
-    fprintf('pop_TBT(): Converting cell-array to logical array')
+    fprintf('pop_TBT(): Converting cell-array to logical array\n')
     bads = tbt_cell2bool(bads,EEG);
     fprintf('.. done.\n')
 elseif ~islogical(bads)
-    fprintf('pop_TBT(): Converting to logical array')
+    fprintf('pop_TBT(): Converting to logical array\n')
     bads = logical(bads);
+    fprintf('.. done.\n')
 end
 
 %% Find bad trials and Channels
