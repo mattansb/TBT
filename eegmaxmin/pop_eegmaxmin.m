@@ -1,4 +1,4 @@
-% pop_TBT() - Rejects and iterpolates channels on a epoch by epoch basis.
+% pop_eegmaxmin() - Reject based on max-min difference thereshold.
 %
 % Usage:
 %   >> [EEG, com]   = pop_eegmaxmin(EEG); % pop-up interactive window mode
@@ -6,12 +6,12 @@
 %
 % Inputs:
 %   EEG         - input dataset.
-%   chanRange   - [1:EEG.nbchan] indecies for channels.
-%   timeRange   - [[EEG.xmin, EEG.xmax]*1000] range for inspection in ms.
+%   chanRange   - [default: 1:EEG.nbchan] indecies for channels.
+%   timeRange   - [default: [EEG.xmin, EEG.xmax]*1000] range for inspection in ms.
 %   minmaxThresh- Threshold for the difference between max and min.
-%   winSize     - size of moving winsow (in ms).
-%   stepSize    - step size for moving window (in ms).
-%   maW         - moving average window size [defult 0].
+%   winSize     - [default: diff(timeRange)] size of moving winsow (in ms).    
+%   stepSize    - [default: winSize/10] step size for moving window (in ms).
+%   maW         - [default: 0] moving average window size for smoothing.
 %    
 % Outputs:
 %   EEG     - output dataset
