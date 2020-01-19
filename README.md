@@ -11,7 +11,7 @@ It also comes with an additional method for rejecting epochs - max-minus-min thr
 ## Downloading
 
 -   You can download TBT through EEGLAB's data-processing extension GUI (*File &gt; Manage EEGLAB Extensions &gt; Data-Processing Extensions*).
--   Or as a `.zip` file from EEGLABS's servers [(TBT v1.5)](http://sccn.ucsd.edu/eeglab/plugins/TBT1.5.zip).
+-   Or as a `.zip` file from EEGLABS's servers [(TBT v2.0)](http://sccn.ucsd.edu/eeglab/plugins/TBT2.0.zip).
 -   Or as a `.zip` file from the GitHub page [(TBT)](https://github.com/mattansb/TBT/releases).
 
 ## List of included functions
@@ -105,7 +105,7 @@ tbt_bool2cell(EEG.reject.rejmaxminE, EEG)
 
 >> ans =
 >> 
->>   70ª2 cell array
+>>   70Âª2 cell array
 >> 
 >>     [ 2]    {'E64'	'E90'}
 >>     [ 3]    {'E63'	'E64'	'E68'	'E90'	'E99'}
