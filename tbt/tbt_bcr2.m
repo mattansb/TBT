@@ -118,7 +118,7 @@ if plot_bads==0
     end
     
     % convert bool array to n-by-2 cell-list
-    tbt = tbt_bool2cell(bads,EEG);
+    tbt = tbt_bool2cell(bads, EEG, true);
     
     if size(tbt,1)~=0
         fprintf('pop_TBT(): %d channel(s) are bad on at least 1 trial.\n',sum(any(bads,2)))
