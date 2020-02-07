@@ -10,7 +10,9 @@ It also comes with an additional method for rejecting epochs - max-minus-min thr
 
 You can reference the plugin and its documentation as follows:
 
-- Mattan S. Ben-Shachar. (2020, January 19). TBT: Reject and Interpolate channels on a trial-by-trial basis (Version v2.6.0). Zenodo. [http://doi.org/10.5281/zenodo.3627791](http://doi.org/10.5281/zenodo.3627791)
+- Ben-Shachar, M. S. (2020, January 19). TBT: Reject and Interpolate channels on a trial-by-trial basis (Version v2.6.0). Zenodo. [http://doi.org/10.5281/zenodo.3627791](http://doi.org/10.5281/zenodo.3627791)
+
+See ***Scripting*** below for a citation example.
 
 ## Downloading
 
@@ -142,6 +144,20 @@ EEG = pop_TBT(EEG,my_bads,0.3,10,[],EEG.chanlocs); % or any other chanloc struct
 ```
 
 This makes TBT an ideal 'last step' in preprocessing - providing a clean data-set with all missing channels interpolated.
+
+### Citation Example
+
+This is a citation example for the following code:
+
+```Matlab
+EEG = pop_eegmaxmin(EEG, [],[], 75, [], 1, 0);
+
+EEG = pop_TBT(EEG, EEG.reject.rejmaxminE , 10, 0.15, 1);
+```
+
+of the max-min method + TBT:
+
+> Epoched data were subjected to an automated bad-channel and artifact detection using EEGPLAB's *TBT* plugin (Ben-Shachar, 2020): within each epoch, channels that exceeded a differential average amplitude of 75μV were marked for rejection. Channels that were marked as bad on more then 15/% of all epochs were excluded. Epochs having more than 10 bad channels were excluded. Epochs with less than 10 bad channels were included, while replacing the bad-channel data with spherical interpolation of the neighboring channel values.
 
 Author
 ------
