@@ -66,7 +66,7 @@ EEG = pop_eegmaxmin(EEG);
 
 % Send the 'rejE' matrix to pop_TBT:
 my_bads = EEG.reject.rejmaxminE;
-EEG = pop_TBT(EEG,my_bads,0.3,10);
+EEG = pop_TBT(EEG,my_bads,10,0.3);
 
 % to get more info, type 'help pop_TBT' in the command line.
 ```
@@ -86,7 +86,7 @@ my_bads = {...
   [13 28],{'E22'};...
   }
   
-EEG = pop_TBT(EEG,my_bads,0.3,10);
+EEG = pop_TBT(EEG,my_bads,10,0.3);
                   
 ```
 
@@ -107,7 +107,7 @@ EEG = pop_eegmaxmin(EEG);
 
 
 my_bads = my_bads | EEG.reject.rejmaxminE;
-EEG = pop_TBT(EEG,my_bads,0.3,10);
+EEG = pop_TBT(EEG,my_bads,10,0.3);
                   
 ```
 The `tbt_bool2cell` function is the reverse of `tbt_cell2bool`, converting a boolean `rejE` matrix to a tbt-ready cell-list. For example:
@@ -131,7 +131,7 @@ tbt_bool2cell(EEG.reject.rejmaxminE, EEG)
 
 ### Interpolating all missing channels
 
-By default, trial-by-trial interpolation interpolates *only* the channels that are marked on a single-trial basis. i.e., channels marked as bad across the whole data-set will not be re-added by interpolation. If you wish to add them back (or any other channel that may have been removed in any previous processing step), channel locations can be added to `pop_tbt`:
+By default, trial-by-trial interpolation interpolates *only* the channels that are marked on a single-trial basis. i.e., channels marked as bad across the whole data-set will not be re-added by interpolation. If you wish to add them back (or any other channel that may have been removed in any previous processing step), channel locations can be added to `pop_TBT`:
 
 ```Matlab
 % To add back all channels from the input EEG data-set:
@@ -139,7 +139,7 @@ EEG = pop_eegmaxmin(EEG);
 
 my_bads = EEG.reject.rejmaxminE;
 
-EEG = pop_TBT(EEG,my_bads,0.3,10,[],EEG.chanlocs); % or any other chanloc struct
+EEG = pop_TBT(EEG,my_bads,10,0.3,[],EEG.chanlocs); % or any other chanloc struct
                   
 ```
 
