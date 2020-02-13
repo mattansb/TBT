@@ -48,9 +48,15 @@
 
 function [EEG, nbadchan, nbadtrial] = tbt_bcr2(EEG,bads,badsegs,badchans,plot_bads,chanlocs)
 
+if rem(badsegs, 1)~=0
+    error('badchans must be a whole number.')
+end
+
+if ~(0 < badchans && badchans <= 1)
+    error('badsegs must be between 0 and 1.')
+end
+
 %% convert bads from cell to array
-
-
 
 if iscell(bads)
     fprintf('pop_TBT(): Converting cell-array to logical array\n')
