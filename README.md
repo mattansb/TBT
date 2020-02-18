@@ -10,7 +10,7 @@ It also comes with an additional method for rejecting epochs - max-minus-min thr
 
 You can reference the plugin and its documentation as follows:
 
-- Ben-Shachar, M. S. (2020, January 19). TBT: Reject and Interpolate channels on a trial-by-trial basis (Version v2.6.0). Zenodo. [http://doi.org/10.5281/zenodo.3627791](http://doi.org/10.5281/zenodo.3627791)
+- Ben-Shachar, M. S. (2018). TBT: Reject and Interpolate channels on a trial-by-trial basis (Version v2.6.0). Zenodo. [http://doi.org/10.5281/zenodo.3627791](http://doi.org/10.5281/zenodo.3627791)
 
 See ***Scripting*** below for a citation example.
 
