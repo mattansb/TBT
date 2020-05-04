@@ -1,4 +1,4 @@
-# TBT 2.6.x
+# TBT 2.6.1
 
 - `tbt_bool2cell` can now return a concise list, making the TBT process faster.
 - When closing the plotting dialog via the `X` button, the function does NOT run.
