@@ -1,3 +1,8 @@
+# TBT 2.6.x
+
+- `tbt_bool2cell` can now return a concise list, making the TBT process faster.
+- When closing the plotting dialog via the `X` button, the function does NOT run.
+
 # TBT 2.6.0
 
 - Works better with the new `eeglab2019`.

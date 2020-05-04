@@ -48,9 +48,15 @@
 
 function [EEG, nbadchan, nbadtrial] = tbt_bcr2(EEG,bads,badsegs,badchans,plot_bads,chanlocs)
 
+if rem(badsegs, 1)~=0
+    error('badchans must be a whole number.')
+end
+
+if ~(0 < badchans && badchans <= 1)
+    error('badsegs must be between 0 and 1.')
+end
+
 %% convert bads from cell to array
-
-
 
 if iscell(bads)
     fprintf('pop_TBT(): Converting cell-array to logical array\n')
@@ -118,15 +124,16 @@ if plot_bads==0
     end
     
     % convert bool array to n-by-2 cell-list
-    tbt = tbt_bool2cell(bads,EEG);
+    tbt = tbt_bool2cell(bads, EEG, true);
     
     if size(tbt,1)~=0
         fprintf('pop_TBT(): %d channel(s) are bad on at least 1 trial.\n',sum(any(bads,2)))
         fprintf('           %d trials(s) contain at least 1 bad channel.\n',sum(any(bads,1)))
         
-        fprintf('pop_TBT(): Interpolating epoch-by-epoch..')
+        fprintf('pop_TBT(): Interpolating epoch-by-epoch ')
+        strCR = textprogressbar(0);
         for t = 1:size(tbt,1) % each trial with bad channels
-            if ~mod(t,5), fprintf('.'); end
+            strCR = textprogressbar(t/size(tbt,1),strCR);
             
             % split
             evalc('tempeeg(t) = pop_selectevent(EEG, ''epoch'',tbt{t,1});');
@@ -139,17 +146,45 @@ if plot_bads==0
         end
         
         evalc('EEG = pop_interp(EEG, chanlocs, ''spherical'');'); % to match all channels to the chanloc channel
-        tempeeg = cat(3,tempeeg.data);              % gather all data
-        EEG.data(:,:,cat(1,tbt{:,1})) = tempeeg;    % re-add to EEG.data
-
-        fprintf('.. done.\n')
+        eegdata                 = cat(3,tempeeg.data);  % gather all data
+        eeginds                 = [tbt{:,1}];           % gather all inds
+        EEG.data(:,:,eeginds)   = eegdata;              % re-add to EEG.data
+        fprintf('\n')
     elseif interp_all
         fprintf('pop_TBT(): Interpolating missing channels')
         evalc('EEG = pop_interp(EEG, chanlocs, ''spherical'');');
         fprintf('.. done.\n')
     end
     
-    EEG = eeg_checkset(EEG);
+    fprintf('pop_TBT(): eeg_checkset().')
+    evalc('EEG = eeg_checkset(EEG);');
+    fprintf('.. done.\n')
 end
+
+end
+
+function strCR = textprogressbar(c,strCR)
+
+%% Initialization
+if ~exist('strCR','var'), strCR = []; end
+
+% Vizualization parameters
+PBmax       = 15;   % total number of dots in a progress bar
+PBsymbol    = '=';  % symbol for PB
+
+%% Main 
+c = floor(100*c);
+percentageOut = [num2str(c) '%%'];
+
+nDots = floor(c/100*PBmax);
+dotOut = ['[' PBsymbol repmat(PBsymbol,1,nDots) repmat(' ',1,PBmax-nDots) '] '];
+
+strOut = [dotOut percentageOut];
+
+% Print it on the screen
+fprintf([strCR strOut]);
+
+% Update carriage return
+strCR = repmat('\b',1,length(strOut)-1);
 
 end

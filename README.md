@@ -8,10 +8,15 @@ This EEGLAB plugin allows for the automatic rejection and interpolation of chann
 
 It also comes with an additional method for rejecting epochs - max-minus-min threshold [(see here for more info)](./doc/Using_eegmaxmin.md).
 
+You can reference the plugin and its documentation as follows:
+
+- Ben-Shachar, M. S. (2018). TBT: Reject and Interpolate channels on a trial-by-trial basis (Version v2.6.0). Zenodo. [http://doi.org/10.5281/zenodo.3627791](http://doi.org/10.5281/zenodo.3627791)
+
+See ***Scripting*** below for a citation example.
+
 ## Downloading
 
--   You can download TBT through EEGLAB's data-processing extension GUI (*File &gt; Manage EEGLAB Extensions &gt; Data-Processing Extensions*).
--   Or as a `.zip` file from EEGLABS's servers [(TBT v2.0)](http://sccn.ucsd.edu/eeglab/plugins/TBT2.0.zip).
+-   You can download TBT through EEGLAB's data-processing extension GUI (*File &gt; Manage EEGLAB Extensions &gt; Filter by artifact*).
 -   Or as a `.zip` file from the GitHub page [(TBT)](https://github.com/mattansb/TBT/releases).
 
 ## List of included functions
@@ -26,7 +31,7 @@ It also comes with an additional method for rejecting epochs - max-minus-min thr
 
 Use the menu *Tools &gt; Epoch by Epoch Rejection/Interpolation*, or type into the command line:
 
-``` matlab
+```Matlab
 [EEG, com, badlist] = pop_TBT(EEG); % pop-up interactive window mode
 ```
 
@@ -37,7 +42,17 @@ You will be asked to select a rejection method, and set its parameters, and also
 2. **The maximum number of bad channels per trial.** If a trial has more than this number of bad channels, the trial will be removed.
 3. Whether to plot the marked channels and trials before rejecting and interpolating the marked channels.
 
+If you select `Plot before executing`, a pop-up window will appear, allowing for two kinds of plots:
+
+- ***A scrolling EEG plot***, with bad channels marked in red, and bad trials marked in yellow:  
+
 ![](doc/tbt_plot_eeg.png)
+
+- ***A matrix plot***:
+  - Red horizontal bars mark channels that will be completely removed,  
+  - Red vertical bars mark trials that will be completely removed,  
+  - Colored dots mark which channels that will be removed and interpolated on a trial-by-trial basis.  
+
 ![](doc/tbt_plot_matrix.png)
 
 
@@ -45,13 +60,13 @@ You will be asked to select a rejection method, and set its parameters, and also
 
 Scripting takes to general following form:
 
-``` matlab
+```Matlab
 % Use some rejection method:
 EEG = pop_eegmaxmin(EEG);
 
 % Send the 'rejE' matrix to pop_TBT:
 my_bads = EEG.reject.rejmaxminE;
-EEG = pop_TBT(EEG,my_bads,0.3,10);
+EEG = pop_TBT(EEG,my_bads,10,0.3);
 
 % to get more info, type 'help pop_TBT' in the command line.
 ```
@@ -65,19 +80,19 @@ Scripting gives two major additional not available in the gui:
 
 A cell list can be manually created to mark bad channels in specific trials. For example, if we wish to remove E12 and E45 from the 1st epoch, and E22 from epochs 13 and 28, we would create a cell list to be used this list as input for `pop_TBT`:
 
-``` matlab
+```Matlab
 my_bads = {...
   1,{'E12','E45'};...
   [13 28],{'E22'};...
   }
   
-EEG = pop_TBT(EEG,my_bads,0.3,10);
+EEG = pop_TBT(EEG,my_bads,10,0.3);
                   
 ```
 
 This method can also be combined with other `rejE` methods using the `tbt_cell2bool` function:
 
-``` matlab
+```Matlab
 % Specify cell-list
 my_bads = {...
   1,{'E12','E45'};...
@@ -92,7 +107,7 @@ EEG = pop_eegmaxmin(EEG);
 
 
 my_bads = my_bads | EEG.reject.rejmaxminE;
-EEG = pop_TBT(EEG,my_bads,0.3,10);
+EEG = pop_TBT(EEG,my_bads,10,0.3);
                   
 ```
 The `tbt_bool2cell` function is the reverse of `tbt_cell2bool`, converting a boolean `rejE` matrix to a tbt-ready cell-list. For example:
@@ -116,19 +131,33 @@ tbt_bool2cell(EEG.reject.rejmaxminE, EEG)
 
 ### Interpolating all missing channels
 
-By default, trial-by-trial interpolation interpolates *only* the channels that are marked on a single-trial basis. i.e., channels marked as bad across the whole data-set will not be re-added by interpolation. If you wish to add them back (or any other channel that may have been removed in any previous processing step), channel locations can be added to `pop_tbt`:
+By default, trial-by-trial interpolation interpolates *only* the channels that are marked on a single-trial basis. i.e., channels marked as bad across the whole data-set will not be re-added by interpolation. If you wish to add them back (or any other channel that may have been removed in any previous processing step), channel locations can be added to `pop_TBT`:
 
-``` matlab
+```Matlab
 % To add back all channels from the input EEG data-set:
 EEG = pop_eegmaxmin(EEG);
 
 my_bads = EEG.reject.rejmaxminE;
 
-EEG = pop_TBT(EEG,my_bads,0.3,10,[],EEG.chanlocs); % or any other chanloc struct
+EEG = pop_TBT(EEG,my_bads,10,0.3,[],EEG.chanlocs); % or any other chanloc struct
                   
 ```
 
 This makes TBT an ideal 'last step' in preprocessing - providing a clean data-set with all missing channels interpolated.
+
+### Citation Example
+
+This is a citation example for the following code:
+
+```Matlab
+EEG = pop_eegmaxmin(EEG, [],[], 75, [], 1, 0);
+
+EEG = pop_TBT(EEG, EEG.reject.rejmaxminE , 10, 0.15, 1);
+```
+
+of the max-min method + TBT:
+
+> Epoched data were subjected to an automated bad-channel and artifact detection using EEGPLAB's *TBT* plugin (Ben-Shachar, 2020): within each epoch, channels that exceeded a differential average amplitude of 75μV were marked for rejection. Channels that were marked as bad on more then 15/% of all epochs were excluded. Epochs having more than 10 bad channels were excluded. Epochs with less than 10 bad channels were included, while replacing the bad-channel data with spherical interpolation of the neighboring channel values.
 
 Author
 ------
