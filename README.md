@@ -157,7 +157,7 @@ EEG = pop_TBT(EEG, EEG.reject.rejmaxminE , 10, 0.15, 1);
 
 of the max-min method + TBT:
 
-> Epoched data were subjected to an automated bad-channel and artifact detection using EEGPLAB's *TBT* plugin (Ben-Shachar, 2020): within each epoch, channels that exceeded a differential average amplitude of 75μV were marked for rejection. Channels that were marked as bad on more then 15/% of all epochs were excluded. Epochs having more than 10 bad channels were excluded. Epochs with less than 10 bad channels were included, while replacing the bad-channel data with spherical interpolation of the neighboring channel values.
+> Epoched data were subjected to an automated bad-channel and artifact detection using EEGPLAB's *TBT* plugin (Ben-Shachar, 2018): within each epoch, channels that exceeded a differential average amplitude of 75μV were marked for rejection. Channels that were marked as bad on more then 15/% of all epochs were excluded. Epochs having more than 10 bad channels were excluded. Epochs with less than 10 bad channels were included, while replacing the bad-channel data with spherical interpolation of the neighboring channel values.
 
 Author
 ------
