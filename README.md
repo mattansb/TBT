@@ -3,14 +3,16 @@
 
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1241518.svg)](https://doi.org/10.5281/zenodo.1241518)
+[![EEGLABplugin](https://img.shields.io/badge/eeglab-TBT-9cf)](https://sccn.ucsd.edu/eeglab/plugin_uploader/plugin_list_all.php)
+
 
 This EEGLAB plugin allows for the automatic rejection and interpolation of channels on an epoch-by-epoch basis.
 
-It also comes with an additional method for rejecting epochs - max-minus-min threshold [(see here for more info)](./doc/Using_eegmaxmin.md).
+It also comes with an additional method for rejecting epochs - [max-minus-min threshold](./eegmaxmin/README.md).
 
 You can reference the plugin and its documentation as follows:
 
-- Ben-Shachar, M. S. (2018). TBT: Reject and Interpolate channels on a trial-by-trial basis. Zenodo. [http://doi.org/10.5281/zenodo.3627791](http://doi.org/10.5281/zenodo.3627791)
+- Ben-Shachar, M. S. (2018). TBT: Reject and Interpolate channels on a trial-by-trial basis. Zenodo. [https://doi.org/10.5281/zenodo.1241518](https://doi.org/10.5281/zenodo.1241518)
 
 See ***Scripting*** below for a citation example.
 
@@ -35,7 +37,7 @@ Use the menu *Tools &gt; Epoch by Epoch Rejection/Interpolation*, or type into t
 [EEG, com, badlist] = pop_TBT(EEG); % pop-up interactive window mode
 ```
 
-![](doc/TBT_eg.png)
+![](img/TBT_eg.png)
 
 You will be asked to select a rejection method, and set its parameters, and also to set the following:
 1. **The maximum percent of bad trials per channel.** If a channel is bad on more then this percent of the trials, the channel will be removed across the whole data-set.
@@ -46,14 +48,14 @@ If you select `Plot before executing`, a pop-up window will appear, allowing for
 
 - ***A scrolling EEG plot***, with bad channels marked in red, and bad trials marked in yellow:  
 
-![](doc/tbt_plot_eeg.png)
+![](img/tbt_plot_eeg.png)
 
 - ***A matrix plot***:
   - Red horizontal bars mark channels that will be completely removed,  
   - Red vertical bars mark trials that will be completely removed,  
   - Colored dots mark which channels that will be removed and interpolated on a trial-by-trial basis.  
 
-![](doc/tbt_plot_matrix.png)
+![](img/tbt_plot_matrix.png)
 
 
 ## Scripting
