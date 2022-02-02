@@ -1,3 +1,7 @@
+# TBT 2.6.2
+
+- `tbt_bcr2()` will now let you know if you have channels in your data that are *not* (for some reason) in a passed `chanloc`.
+
 # TBT 2.6.1
 
 - `tbt_bool2cell` can now return a concise list, making the TBT process faster.

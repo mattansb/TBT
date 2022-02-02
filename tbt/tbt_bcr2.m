@@ -121,6 +121,11 @@ if plot_bads==0
         chanlocs = EEG.chanlocs;
     else
         interp_all = true;
+        oops_chans = setdiff({EEG.chanlocs.labels}, {chanlocs.labels});
+        if ~isempty(oops_chans)
+            error(sprintf('Some channels are present in the EEG struct that are not part of ''chanloc'': \n\t%s', ...
+                strjoin(oops_chans, '; ')))
+        end
     end
     
     % convert bool array to n-by-2 cell-list
